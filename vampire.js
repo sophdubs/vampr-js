@@ -39,17 +39,49 @@ class Vampire {
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    
+    if (!this.name) return null;
+    let vamps = [this];
+    while (vamps.length) {
+      let curr = vamps.pop();
+      if (curr.name === name) {
+        return curr;
+      } else {
+        if (curr.offspring) {
+          vamps = [...vamps, ...curr.offspring];
+        }
+      }
+    }
+    return null;
   }
 
   // Returns the total number of vampires that exist
   get totalDescendents() {
-    
+    let count = 0;
+    let vamps = this.offspring;
+    while (vamps.length) {
+      let curr = vamps.pop();
+      count += 1;
+      if (curr.offspring) {
+        vamps = [...vamps, ...curr.offspring];
+      }
+    }
+    return count;
   }
 
   // Returns an array of all the vampires that were converted after 1980
   get allMillennialVampires() {
-    
+    let millenials = [];
+    let vamps = [this];
+    while (vamps.length) {
+      let curr = vamps.pop();
+      if (curr.yearConverted > 1980) {
+        millenials.push(curr);
+      }
+      if (curr.offspring) {
+        vamps = [...vamps, ...curr.offspring];
+      }
+    }
+    return millenials;
   }
 
   /** Stretch **/
@@ -90,28 +122,6 @@ class Vampire {
 
     return curr.creator;
   }
-
-  vampireWithName(name) {
-    if (this.name === name) {
-      return this;
-    }
-    for (let vamp of this.offspring) {
-      vamp.vampireWithName(name);
-    }
-    return null;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 module.exports = Vampire;
