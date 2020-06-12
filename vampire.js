@@ -73,6 +73,28 @@ class Vampire {
 
     return curr.creator;
   }
+
+  vampireWithName(name) {
+    if (this.name === name) {
+      return this;
+    }
+    for (let vamp of this.offspring) {
+      vamp.vampireWithName(name);
+    }
+    return null;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 module.exports = Vampire;
